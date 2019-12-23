@@ -3,9 +3,9 @@ package voterEvents
 import "github.com/dapperlabs/flow-go/engine/consensus/HotStuff/modules/defConAct"
 
 type Processor interface {
-	OnSentVote(*defConAct.Vote)
+	OnProducedVote(*defConAct.Vote, string)
 }
 
 type SentVoteConsumer interface {
-	OnSentVote(*defConAct.Vote)
+	OnProducedVote(*defConAct.Vote)
 }

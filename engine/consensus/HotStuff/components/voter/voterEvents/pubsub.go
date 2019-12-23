@@ -1,8 +1,9 @@
 package voterEvents
 
 import (
-	"github.com/dapperlabs/flow-go/engine/consensus/HotStuff/modules/utils"
 	"sync"
+
+	"github.com/dapperlabs/flow-go/engine/consensus/HotStuff/modules/utils"
 
 	"github.com/dapperlabs/flow-go/engine/consensus/HotStuff/modules/defConAct"
 )
@@ -18,11 +19,11 @@ func New() *PubSubEventProcessor {
 	return &PubSubEventProcessor{}
 }
 
-func (p *PubSubEventProcessor) OnSentVote(vote *defConAct.Vote) {
+func (p *PubSubEventProcessor) OnProducedVote(vote *defConAct.Vote) {
 	p.lock.RLock()
 	defer p.lock.RUnlock()
 	for _, subscriber := range p.sentVoteConsumers {
-		subscriber.OnSentVote(vote)
+		subscriber.OnProducedVote(vote)
 	}
 }
 
@@ -35,4 +36,3 @@ func (p *PubSubEventProcessor) AddSentVoteConsumer(cons SentVoteConsumer) *PubSu
 	p.sentVoteConsumers = append(p.sentVoteConsumers, cons)
 	return p
 }
-

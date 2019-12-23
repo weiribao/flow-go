@@ -5,6 +5,7 @@ package flow
 import (
 	"encoding/hex"
 	"fmt"
+	"reflect"
 	"regexp"
 	"strconv"
 
@@ -126,4 +127,15 @@ func (il IdentityList) Count() uint {
 // Get returns the node at the given index.
 func (il IdentityList) Get(i uint) Identity {
 	return il[int(i)]
+}
+
+// GetIdx returns the index of a node with a given ID
+func (il IdentityList) GetIdx(identifier Identifier) (uint32, error) {
+	for i, identity := range il {
+		if reflect.DeepEqual(identity.NodeID, identifier) {
+			return uint32(i), nil
+		}
+	}
+
+	return 0, fmt.Errorf("Couldn't find node with identifier %v", identifier)
 }
