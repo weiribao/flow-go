@@ -50,11 +50,11 @@ func (v *Voter) vote(block *def.Block) {
 	}
 	nextPrimary := v.primaryFetcher.ByView(v.view + 1)
 	selfIdx := v.getSelfIdx(block.QC.BlockMRH)
-	vote := v.GenerateAndSignVote(block, selfIdx)
+	vote := v.generateAndSignVote(block, selfIdx)
 	v.processor.OnProducedVote(vote, nextPrimary.Address)
 }
 
-func (v *Voter) GenerateAndSignVote(block *def.Block, selfIdx uint32) *defConAct.Vote {
+func (v *Voter) generateAndSignVote(block *def.Block, selfIdx uint32) *defConAct.Vote {
 	voteSig := crypto.SignMsg(block.BlockMRH, selfIdx)
 	vote := defConAct.NewVote(block.View, block.BlockMRH, voteSig)
 
