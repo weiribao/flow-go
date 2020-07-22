@@ -11,7 +11,7 @@ NOTE: This package does not provide any security against side channel or tamperi
 
 Cloning Flow repository and following the [installation steps](https://github.com/dapperlabs/flow-go) builds the necessary tools to use Flow cryptography. 
 
-<!--- If you only wish to import the Flow cryptography package to your Go project, please follow the following steps:
+<!--- If you wish to only import the Flow cryptography package to your Go project, please follow the following steps:
 
 - Get Flow cryptography package
 ```
@@ -27,13 +27,13 @@ go generate github.com/dapperlabs/flow-go/crypto
 
 ### Hashing and Message Authentication Code:
 
-`crypto/hash` provides the hashing and MAC algorithms required for Flow. All algorithm implement the generic interface `Hasher`. All digests are of the generic type `Hash`.
+`crypto/hash` provides the hashing and MAC algorithms required for Flow. All algorithms implement the generic interface `Hasher`. All digests are of the generic type `Hash`.
 
-*Hashing* :
- * Sha3: 256 and 384 output size
- * Sha2: 256 and 384 output size
+Hashing :
+ * SHA3: 256 and 384 output size
+ * SHA2: 256 and 384 output size
 
-*MAC* :
+MAC :
  * KMAC: 128 variant
 
 ### Signature schemes 
@@ -42,7 +42,7 @@ All signature schemes use the generic interfaces of `PrivateKey` and `PublicKey`
 
  * ECDSA
     * public keys are uncompressed.
-    * ephemeral key is derived from the private key, hash and an external entropy using a CSPRNG.
+    * ephemeral key is derived from the private key, the hash and an external entropy using a CSPRNG.
     * only supports NIST P-256 (secp256r1) and secp256k1 curves.
     * key generation requires a uniformly-distributed seed. 
 
@@ -58,7 +58,7 @@ All signature schemes use the generic interfaces of `PrivateKey` and `PublicKey`
     * membership checks in G1 and G2 are using a naive scalar multiplication by the group order.
 
  * Future features:
-    * tools for BLS aggregations and batch verification
+    * BLS multi signature, including aggregations and batch verification
     * membership checks in G1 and G2 using [Bowe's method](https://eprint.iacr.org/2019/814.pdf)
     * support a G1/G2 swap (signatures on G2 and public keys on G1)
  
