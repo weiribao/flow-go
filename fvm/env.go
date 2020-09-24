@@ -125,30 +125,27 @@ func (e *hostEnv) ResolveLocation(identifiers []runtime.Identifier, location run
 
 	resolvedLocations := make([]runtime.ResolvedLocation, len(identifiers))
 	for i := range resolvedLocations {
-		resolvedLocations[i] = runtime.ResolvedLocation{
-			Location:    location,
-			Identifiers: []runtime.Identifier{identifiers[i]},
-		}
+		resolvedLocations[i] = e.resolveLocation(identifiers[i], location)
 	}
 	return resolvedLocations
 }
 
-//func (e *hostEnv) resolveLocation(identifier runtime.Identifier, location runtime.Location) runtime.ResolvedLocation {
-//	if addressLocation, ok := location.(runtime.AddressLocation); ok {
-//		return runtime.ResolvedLocation{
-//			Location:    runtime.AddressContractLocation{
-//				AddressLocation: addressLocation,
-//				Name:            identifier.Identifier,
-//			},
-//			Identifiers: []runtime.Identifier{identifier},
-//		}
-//	}
-//
-//	return runtime.ResolvedLocation{
-//		Location:    location,
-//		Identifiers: []runtime.Identifier{identifier},
-//	}
-//}
+func (e *hostEnv) resolveLocation(identifier runtime.Identifier, location runtime.Location) runtime.ResolvedLocation {
+	if addressLocation, ok := location.(runtime.AddressLocation); ok {
+		return runtime.ResolvedLocation{
+			Location: runtime.AddressContractLocation{
+				AddressLocation: addressLocation,
+				Name:            identifier.Identifier,
+			},
+			Identifiers: []runtime.Identifier{identifier},
+		}
+	}
+
+	return runtime.ResolvedLocation{
+		Location:    location,
+		Identifiers: []runtime.Identifier{identifier},
+	}
+}
 
 func (e *hostEnv) legacyGetCode(location runtime.Location) ([]byte, error) {
 	addressLocation, ok := location.(runtime.AddressLocation)
@@ -169,8 +166,11 @@ func (e *hostEnv) GetCode(location runtime.Location) ([]byte, error) {
 	}
 
 	code, err := e.accounts.GetCode(contractLocation.Name, flow.Address(contractLocation.AddressLocation.ToAddress()))
-	if err != nil {
-		// TODO wrap error, dont loose it
+	if err != nil{
+		return nil, err
+	}
+
+	if len(code) == 0 {
 		return e.legacyGetCode(contractLocation.AddressLocation)
 	}
 	return code, nil
