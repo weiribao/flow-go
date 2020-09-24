@@ -43,7 +43,7 @@ func CreateContractAddCodeTransaction(contractName string, contract string, auth
               prepare(signer: AuthAccount, service: AuthAccount) {
                 signer.contracts.add(name: "%s", code: "%s".decodeHex())
               }
-            }`,contractName, encoded)),
+            }`, contractName, encoded)),
 		).
 		AddAuthorizer(authorizer).
 		AddAuthorizer(chain.ServiceAddress())
@@ -74,7 +74,6 @@ func CreateUnauthorizedContractAddCodeTransaction(contractName string, contract 
 		).
 		AddAuthorizer(authorizer)
 }
-
 
 func SignPayload(
 	tx *flow.TransactionBody,

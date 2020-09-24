@@ -53,7 +53,7 @@ func (a *Accounts) Get(address flow.Address) (*flow.Account, error) {
 
 	var code []byte
 	// TODO: check this
-	code, err = a.GetCode(string(address.Bytes()),address)
+	code, err = a.GetCode(string(address.Bytes()), address)
 	if err != nil {
 		return nil, err
 	}
