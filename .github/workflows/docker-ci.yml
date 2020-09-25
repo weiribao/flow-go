@@ -18,4 +18,4 @@ jobs:
         git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/onflow".insteadOf "https://github.com/onflow"
     - uses: actions/checkout@v2
     - name: Run CI
-      run: make ci
+      run: make test
