@@ -137,9 +137,9 @@ lint:
 	# GO111MODULE=on revive -config revive.toml -exclude storage/ledger/trie ./...
 	golangci-lint run -v --build-tags relic ./...
 
-# Runs linter, unit tests, SKIP FOR NOW coverage
+# Runs unit tests, SKIP FOR NOW linter, coverage
 .PHONY: ci
-ci: clean-relic install-tools tidy lint test # coverage
+ci: clean-relic install-tools tidy test # lint coverage
 
 # Runs integration tests
 # NOTE: we do not need `docker-build-flow` as this is run as a separate step
