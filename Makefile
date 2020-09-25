@@ -28,6 +28,10 @@ CONTAINER_REGISTRY=gcr.io/dl-flow
 
 export DOCKER_BUILDKIT := 1
 
+.PHONY: clean-relic
+clean-relic:
+	rm -rf crypto/relic
+
 crypto/relic:
 	rm -rf crypto/relic
 	git submodule update --init --recursive
@@ -135,7 +139,7 @@ lint:
 
 # Runs linter, unit tests, SKIP FOR NOW coverage
 .PHONY: ci
-ci: install-tools tidy lint test # coverage
+ci: clean-relic install-tools tidy lint test # coverage
 
 # Runs integration tests
 # NOTE: we do not need `docker-build-flow` as this is run as a separate step
