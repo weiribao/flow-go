@@ -12,6 +12,9 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
+    - name: Granting private modules access
+      run: |
+        git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/onflow".insteadOf "https://github.com/onflow"
     - uses: actions/checkout@v2
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v1.2.1
