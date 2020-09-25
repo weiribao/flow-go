@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run CI
-      run: docker run -v "$(CURDIR)":/go/flow -w "/go/flow" "gcr.io/flow-container-registry/golang-cmake:v0.0.7" make ci
+      run: docker run -v $GITHUB_WORKSPACE:/go/flow -w "/go/flow" "gcr.io/flow-container-registry/golang-cmake:v0.0.7" make ci
