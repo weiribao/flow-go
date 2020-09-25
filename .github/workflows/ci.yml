@@ -1,24 +1,36 @@
-name: Lint
+name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-
-  golangci:
-    name: Lint
+  setup:
     runs-on: ubuntu-latest
     steps:
     - name: Granting private modules access
       run: |
         git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/onflow".insteadOf "https://github.com/onflow"
-    - name: Checkout repo
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     - name: Build relic
       run: make clean-relic && make crypto/relic/build
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.14'
+  test:
+    name: Unit Tests
+    needs: setup
+    steps:
+    - name: Run CI
+      run: make ci
+  golangci:
+    name: Lint
+    needs: setup
+    steps:
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v1.2.1
       with:
