@@ -8,10 +8,9 @@ on:
 
 jobs:
 
-  build:
-
+  test:
+    name: Unit Tests
     runs-on: ubuntu-latest
-
     steps:
     - name: Granting private modules access
       run: |
